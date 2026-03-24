@@ -16,6 +16,9 @@ app.use(express.json());
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
 
+const userRoutes = require("./routes/userRoutes");
+app.use("/api/users", userRoutes);
+
 // Test Route
 app.get("/", (req, res) => {
   res.send("InstaMeal API is running 🚀");
