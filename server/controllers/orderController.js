@@ -11,7 +11,29 @@ exports.placeOrder = async (req, res) => {
       totalPrice,
     });
 
+    // Emit initial status
+    req.app.get("io").emit("orderStatus", {
+      orderId: order._id,
+      status: "Preparing",
+    });
+    //  Out for Delivery
+     setTimeout(() => {
+      req.app.get("io").emit("orderStatus", {
+        orderId: order._id,
+        status: "Out for Delivery",
+      });
+    }, 5000);
+
+    // Delivered
+    setTimeout(() => {
+      req.app.get("io").emit("orderStatus", {
+        orderId: order._id,
+        status: "Delivered",
+      });
+    }, 10000);
+// send response
     res.status(201).json(order);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
