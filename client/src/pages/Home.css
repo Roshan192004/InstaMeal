@@ -1,0 +1,478 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+
+/* ===== BASE ===== */
+.home-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #fff0f5 0%, #fce8f8 40%, #f0e8ff 100%);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 48px 60px;
+  gap: 32px;
+  min-height: calc(100vh - 80px);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ===== HERO CONTENT (LEFT) ===== */
+.hero-content {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #f0d0e8;
+  border-radius: 50px;
+  padding: 8px 18px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #555;
+  width: fit-content;
+  box-shadow: 0 2px 12px rgba(255, 0, 128, 0.08);
+}
+
+.badge-emoji {
+  font-size: 1rem;
+}
+
+/* Title */
+.hero-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  line-height: 1.08;
+  font-weight: 800;
+  margin: 0;
+}
+
+.gradient-orange {
+  background: linear-gradient(135deg, #FF4D00, #FF6B35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-purple {
+  background: linear-gradient(135deg, #CC00FF, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-dark {
+  color: #1a1a2e;
+}
+
+/* Description */
+.hero-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.7;
+  max-width: 400px;
+}
+
+/* CTA Buttons */
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-order-now {
+  background: linear-gradient(135deg, #FF4D00, #FF0080);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 6px 20px rgba(255, 0, 128, 0.35);
+  letter-spacing: 0.3px;
+}
+
+.btn-order-now:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(255, 0, 128, 0.45);
+}
+
+.btn-explore {
+  background: white;
+  color: #1a1a2e;
+  border: 1.5px solid #e0e0e0;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.btn-explore:hover {
+  border-color: #FF0080;
+  box-shadow: 0 4px 16px rgba(255, 0, 128, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Info Badges */
+.hero-info {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.info-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orange-icon {
+  background: #fff3ed;
+}
+
+.pink-icon {
+  background: #fff0f7;
+}
+
+.info-value {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #1a1a2e;
+  line-height: 1;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ===== HERO VISUAL (RIGHT) ===== */
+.hero-visual {
+  flex: 1;
+  position: relative;
+  min-height: 480px;
+  max-width: 520px;
+}
+
+/* All food cards */
+.food-card {
+  position: absolute;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s ease;
+}
+
+.food-card:hover {
+  transform: scale(1.03) translateY(-4px);
+}
+
+/* Main burger card */
+.food-card-main {
+  width: 260px;
+  height: 290px;
+  top: 0;
+  right: 20px;
+  background: #0d1b2a;
+  z-index: 3;
+}
+
+.food-img-main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Rating badge */
+.rating-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: white;
+  border-radius: 50px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+  z-index: 5;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+.star {
+  font-size: 0.9rem;
+}
+
+/* Pizza card */
+.food-card-pizza {
+  width: 200px;
+  height: 200px;
+  top: 60px;
+  left: 0;
+  z-index: 2;
+}
+
+.food-img-pizza {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dumplings card */
+.food-card-dumplings {
+  width: 200px;
+  height: 170px;
+  bottom: 20px;
+  left: 20px;
+  z-index: 3;
+}
+
+.food-img-dumplings {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Popular badge */
+.popular-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: linear-gradient(135deg, #FF4D00, #FF0080);
+  color: white;
+  border-radius: 50px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  z-index: 5;
+}
+
+/* Sashimi card */
+.food-card-sashimi {
+  width: 180px;
+  height: 160px;
+  bottom: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.food-img-sashimi {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== STATS SECTION ===== */
+.stats-section {
+  padding: 0 48px 80px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.stats-card {
+  background: white;
+  border-radius: 28px;
+  padding: 48px 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  box-shadow: 0 4px 32px rgba(255, 0, 128, 0.06);
+  gap: 24px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.stat-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orange-bg {
+  background: #fff3ed;
+}
+
+.pink-bg {
+  background: #fff0f7;
+}
+
+.purple-bg {
+  background: #f3f0ff;
+}
+
+.stat-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.orange-text {
+  color: #FF4D00;
+}
+
+.pink-text {
+  color: #FF0080;
+}
+
+.purple-text {
+  color: #8B5CF6;
+}
+
+.stat-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.stat-subtitle {
+  font-size: 0.82rem;
+  color: #999;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 80px;
+  background: #f0e0f0;
+  align-self: center;
+}
+
+/* ===== HELP BUTTON ===== */
+.help-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  background: #2d2d2d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 200;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.help-btn:hover {
+  background: #FF0080;
+  transform: scale(1.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    padding: 24px 24px 40px;
+    min-height: auto;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    min-height: 340px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .food-card-main {
+    width: 200px;
+    height: 220px;
+    right: 10px;
+  }
+
+  .food-card-pizza {
+    width: 160px;
+    height: 160px;
+    left: 10px;
+    top: 40px;
+  }
+
+  .food-card-dumplings {
+    width: 150px;
+    height: 130px;
+    left: 0;
+    bottom: 10px;
+  }
+
+  .food-card-sashimi {
+    width: 140px;
+    height: 120px;
+    right: 5px;
+    bottom: 0;
+  }
+
+  .stats-section {
+    padding: 0 20px 48px;
+  }
+
+  .stats-card {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+
+  .stat-divider {
+    width: 80px;
+    height: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .btn-order-now,
+  .btn-explore {
+    padding: 12px 22px;
+    font-size: 0.9rem;
+  }
+}
