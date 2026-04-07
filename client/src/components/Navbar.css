@@ -20,9 +20,10 @@
 }
 
 .brand-logo svg {
-  width: 38px;
-  height: 38px;
+  /* size controlled by svg width/height attributes */
+  display: block;
 }
+
 
 .brand-name {
   font-family: 'Outfit', sans-serif;
@@ -55,8 +56,9 @@
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 24px;
 }
+
 
 .btn-signin {
   background: linear-gradient(135deg, #FF4D00, #FF0080);
@@ -111,6 +113,7 @@
     padding: 20px;
     gap: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 200;
   }
 
   .navbar-links.open {
@@ -120,4 +123,9 @@
   .hamburger {
     display: flex;
   }
+
+  .btn-signin {
+    display: none;
+  }
 }
+
