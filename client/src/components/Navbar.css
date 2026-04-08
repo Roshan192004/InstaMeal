@@ -60,7 +60,29 @@
 }
 
 
+.auth-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
 .btn-signin {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #444;
+  cursor: pointer;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.btn-signin:hover {
+  color: #FF0080;
+}
+
+.btn-signup-nav {
   background: linear-gradient(135deg, #FF4D00, #FF0080);
   color: white;
   border: none;
@@ -74,7 +96,7 @@
   box-shadow: 0 4px 16px rgba(255, 0, 128, 0.3);
 }
 
-.btn-signin:hover {
+.btn-signup-nav:hover {
   opacity: 0.9;
   transform: translateY(-1px);
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
@@ -37,7 +38,10 @@ function Navbar() {
           <a href="#cities" className="nav-link">Cities</a>
           <a href="#about" className="nav-link">About</a>
         </div>
-        <button className="btn-signin">Sign In</button>
+        <div className="auth-buttons">
+          <Link to="/signin" className="btn-signin" style={{ textDecoration: 'none' }}>Sign In</Link>
+          <Link to="/signup" className="btn-signup-nav" style={{ textDecoration: 'none' }}>Sign Up</Link>
+        </div>
         <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           <span></span><span></span><span></span>
         </button>
