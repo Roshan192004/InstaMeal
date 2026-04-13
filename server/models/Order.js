@@ -4,6 +4,12 @@ const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  restaurant: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Restaurant",
+    required: true,
   },
   items: [
     {
@@ -15,7 +21,8 @@ const orderSchema = new mongoose.Schema({
   totalPrice: Number,
   status: {
     type: String,
-    default: "Preparing",
+    enum: ["pending", "preparing", "out_for_delivery", "delivered", "cancelled"],
+    default: "pending",
   },
 }, { timestamps: true });
 

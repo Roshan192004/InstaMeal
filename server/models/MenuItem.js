@@ -10,9 +10,11 @@ const menuItemSchema = new mongoose.Schema({
     required: true,
   },
   category: String,
+  image: String,
   restaurant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Restaurant",
+    required: true,
   },
 }, { timestamps: true });
 
