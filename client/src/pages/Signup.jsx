@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 function Signup() {
@@ -7,34 +7,66 @@ function Signup() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    role: "customer"
   });
-  const [showSuccess, setShowSuccess] = useState(false);
+
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Integrate with backend auth
-    console.log("Signup data:", formData);
-    setShowSuccess(true);
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 3000);
+    setErrorMsg("");
+    
+    // Basic frontend validation
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMsg("Passwords do not match");
+      return;
+    }
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      // Save token to local storage 
+      localStorage.setItem("token", data.token);
+
+      // Redirection logic based on role. We pass a state flag so the destination can show the success message.
+      if (data.role === "admin") {
+        navigate("/admin", { state: { showSignupSuccess: true } });
+      } else {
+        navigate("/", { state: { showSignupSuccess: true } });
+      }
+      
+    } catch (error) {
+      setErrorMsg(error.message);
+    }
   };
 
   return (
     <div className="signup-container">
-      {showSuccess && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <div className="popup-icon">✓</div>
-            <h3>Account Created Successfully!</h3>
-            <p>Welcome to instaMeal.</p>
-          </div>
+      {errorMsg && (
+        <div className="error-banner">
+          {errorMsg}
         </div>
       )}
       <div className="signup-card">
@@ -115,6 +147,22 @@ function Signup() {
               onChange={handleChange} 
               required 
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="role">Account Type</label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+              className="role-select"
+            >
+              <option value="customer">Customer</option>
+              <option value="store_owner">Store Owner</option>
+              <option value="admin">Admin</option>
+            </select>
           </div>
 
           <button type="submit" className="btn-signup">Create Account</button>

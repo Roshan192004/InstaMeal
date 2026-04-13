@@ -62,7 +62,8 @@
   color: #333;
 }
 
-.form-group input {
+.form-group input,
+.role-select {
   padding: 14px 16px;
   border: 1.5px solid #e0e0e0;
   border-radius: 12px;
@@ -71,13 +72,15 @@
   color: #333;
   transition: all 0.2s ease;
   background-color: #fcfcfc;
+  appearance: none;
 }
 
 .form-group input::placeholder {
   color: #aaa;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.role-select:focus {
   outline: none;
   border-color: #FF0080;
   background-color: #fff;

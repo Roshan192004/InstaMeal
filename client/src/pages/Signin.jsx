@@ -1,38 +1,58 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Signin.css";
 
 function Signin() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
-  const [showSuccess, setShowSuccess] = useState(false);
+
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Integrate with backend auth
-    console.log("Signin data:", formData);
-    setShowSuccess(true);
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 3000);
+    setErrorMsg("");
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+
+      // Save token to local storage 
+      localStorage.setItem("token", data.token);
+
+      // Redirection logic based on role
+      if (data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+      
+    } catch (error) {
+      setErrorMsg(error.message);
+    }
   };
 
   return (
     <div className="signin-container">
-      {showSuccess && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <div className="popup-icon">✓</div>
-            <h3>Signed In Successfully!</h3>
-            <p>Welcome back to instaMeal.</p>
-          </div>
+      {errorMsg && (
+        <div className="error-banner">
+          {errorMsg}
         </div>
       )}
       <div className="signin-card">

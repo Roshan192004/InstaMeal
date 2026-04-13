@@ -1,9 +1,31 @@
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Home.css";
 
 function Home() {
+  const location = useLocation();
+  const [showSignupSuccess, setShowSignupSuccess] = useState(false);
+
+  useEffect(() => {
+    if (location.state?.showSignupSuccess) {
+      setShowSignupSuccess(true);
+      window.history.replaceState({}, document.title);
+      setTimeout(() => setShowSignupSuccess(false), 4000);
+    }
+  }, [location]);
+
   return (
     <div className="home-wrapper">
+      {showSignupSuccess && (
+        <div className="popup-overlay" style={{ zIndex: 9999 }}>
+          <div className="popup-content">
+            <div className="popup-icon">✓</div>
+            <h3>Account Created Successfully!</h3>
+            <p>Welcome to instaMeal.</p>
+          </div>
+        </div>
+      )}
       <Navbar />
 
       {/* ===== HERO SECTION ===== */}

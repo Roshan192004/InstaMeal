@@ -17,16 +17,9 @@ function Navbar() {
               </linearGradient>
             </defs>
             <circle cx="22" cy="22" r="22" fill="url(#logoGrad2)"/>
-            {/* Fork */}
-            <line x1="14" y1="10" x2="14" y2="20" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            <line x1="14" y1="10" x2="12" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            <line x1="14" y1="10" x2="16" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            <line x1="14" y1="20" x2="14" y2="34" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            {/* Knife */}
-            <line x1="22" y1="10" x2="22" y2="34" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M22 10 Q28 14 26 20 L22 20Z" fill="white" opacity="0.9"/>
-            {/* Sparkle */}
-            <path d="M31 12 L32 15 L35 16 L32 17 L31 20 L30 17 L27 16 L30 15Z" fill="white"/>
+            {/* Sparkles / Stars instead of Fork and Knife to match the screenshot better */}
+            <path d="M22 10 L23.5 18 L31.5 19.5 L23.5 21 L22 29 L20.5 21 L12.5 19.5 L20.5 18 Z" fill="white" />
+            <path d="M14 11 L14.5 14 L17.5 14.5 L14.5 15 L14 18 L13.5 15 L10.5 14.5 L13.5 14 Z" fill="white" />
           </svg>
         </div>
         <span className="brand-name">instaMeal</span>

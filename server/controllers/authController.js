@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // SIGNUP
 exports.registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -19,6 +19,7 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: role || 'customer',
     });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -29,6 +30,7 @@ exports.registerUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      role: user.role,
       token,
     });
 
@@ -53,6 +55,7 @@ exports.loginUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
         token,
       });
     } else {
