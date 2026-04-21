@@ -1,11 +1,11 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
+import OrderNavbar from '../components/OrderNavbar';
 import './Order.css';
 
 const Order = () => {
   return (
     <div className="order-page">
-      <Navbar />
+      <OrderNavbar />
       <div className="order-container">
         <div className="order-content">
           <div className="order-icon">🛒</div>
