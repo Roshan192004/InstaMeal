@@ -1,7 +1,25 @@
 import React from 'react';
 import './LocationSidebar.css';
 
-const LocationSidebar = ({ isOpen, onClose }) => {
+const LocationSidebar = ({ isOpen, onClose, onSelectAddress }) => {
+  const handleGetCurrentLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // In a real app, you'd use reverse geocoding here. 
+        // For now, we'll simulate finding the address.
+        onSelectAddress({ 
+          type: "CURRENT", 
+          addr: `Detected: Lat ${position.coords.latitude.toFixed(2)}, Lng ${position.coords.longitude.toFixed(2)}` 
+        });
+        onClose();
+      }, (error) => {
+        alert("Unable to retrieve your location. Please check your browser permissions.");
+      });
+    } else {
+      alert("Geolocation is not supported by your browser");
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -27,7 +45,7 @@ const LocationSidebar = ({ isOpen, onClose }) => {
           </div>
 
           {/* Current Location */}
-          <div className="current-location-box">
+          <div className="current-location-box" onClick={handleGetCurrentLocation}>
             <div className="gps-icon">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -47,7 +65,13 @@ const LocationSidebar = ({ isOpen, onClose }) => {
           <div className="saved-addresses-section">
             <div className="section-title">SAVED ADDRESSES</div>
             
-            <div className="address-item">
+            <div 
+              className="address-item" 
+              onClick={() => {
+                onSelectAddress({ type: "HOME", addr: "near embassy apartment, Khajurla, Punjab 144411, India" });
+                onClose();
+              }}
+            >
               <div className="addr-icon">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#282c3f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -62,7 +86,13 @@ const LocationSidebar = ({ isOpen, onClose }) => {
 
             <div className="addr-separator"></div>
 
-            <div className="address-item">
+            <div 
+              className="address-item"
+              onClick={() => {
+                onSelectAddress({ type: "FRIENDS", addr: "148, Raju Enclave, Sector 15 Dwarka, Kakrola, Delhi, India" });
+                onClose();
+              }}
+            >
               <div className="addr-icon">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#282c3f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>

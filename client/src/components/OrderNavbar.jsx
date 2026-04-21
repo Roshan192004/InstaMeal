@@ -5,6 +5,14 @@ import './OrderNavbar.css';
 
 const OrderNavbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [location, setLocation] = useState({
+    type: "HOME",
+    addr: "Khajurla, Punjab 144411, India"
+  });
+
+  const handleSelectAddress = (newLoc) => {
+    setLocation(newLoc);
+  };
 
   return (
     <>
@@ -25,8 +33,8 @@ const OrderNavbar = () => {
             </svg>
           </Link>
           <div className="on-location" onClick={() => setIsSidebarOpen(true)}>
-            <span className="location-type">HOME</span>
-            <span className="location-addr">Khajurla, Punjab 144411, India</span>
+            <span className="location-type">{location.type}</span>
+            <span className="location-addr">{location.addr}</span>
             <svg className="dropdown-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fc8019" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -76,6 +84,7 @@ const OrderNavbar = () => {
       <LocationSidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
+        onSelectAddress={handleSelectAddress}
       />
     </>
   );
