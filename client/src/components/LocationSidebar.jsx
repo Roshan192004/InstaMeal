@@ -91,50 +91,6 @@ const LocationSidebar = ({ isOpen, onClose, onSelectAddress }) => {
             </div>
           </div>
 
-          {/* Saved Addresses */}
-          <div className="saved-addresses-section">
-            <div className="section-title">SAVED ADDRESSES</div>
-            
-            <div 
-              className="address-item" 
-              onClick={() => {
-                onSelectAddress({ type: "HOME", addr: "near embassy apartment, Khajurla, Punjab 144411, India" });
-                onClose();
-              }}
-            >
-              <div className="addr-icon">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#282c3f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-              </div>
-              <div className="addr-details">
-                <div className="addr-name">Home</div>
-                <div className="addr-full">near embassy apartment, Khajurla, Punjab 144411, India</div>
-              </div>
-            </div>
-
-            <div className="addr-separator"></div>
-
-            <div 
-              className="address-item"
-              onClick={() => {
-                onSelectAddress({ type: "FRIENDS", addr: "148, Raju Enclave, Sector 15 Dwarka, Kakrola, Delhi, India" });
-                onClose();
-              }}
-            >
-              <div className="addr-icon">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#282c3f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-              </div>
-              <div className="addr-details">
-                <div className="addr-name">Friends And Family</div>
-                <div className="addr-full">148, Raju Enclave, Sector 15 Dwarka, Kakrola, Delhi, India</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
