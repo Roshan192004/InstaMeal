@@ -81,7 +81,8 @@ const OrderNavbar = () => {
           </div>
         </div>
       </div>
-      <LocationSidebar 
+    </nav>
+    <LocationSidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
         onSelectAddress={handleSelectAddress}
