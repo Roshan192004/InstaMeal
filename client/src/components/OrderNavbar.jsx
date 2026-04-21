@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import LocationSidebar from './LocationSidebar';
 import './OrderNavbar.css';
 
 const OrderNavbar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
-    <nav className="order-navbar">
+    <>
+      <nav className="order-navbar">
       <div className="order-navbar-container">
         {/* Logo & Location */}
         <div className="on-left">
@@ -20,7 +24,7 @@ const OrderNavbar = () => {
               <path d="M22 10 L23.5 18 L31.5 19.5 L23.5 21 L22 29 L20.5 21 L12.5 19.5 L20.5 18 Z" fill="white" />
             </svg>
           </Link>
-          <div className="on-location">
+          <div className="on-location" onClick={() => setIsSidebarOpen(true)}>
             <span className="location-type">HOME</span>
             <span className="location-addr">Khajurla, Punjab 144411, India</span>
             <svg className="dropdown-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fc8019" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -69,7 +73,11 @@ const OrderNavbar = () => {
           </div>
         </div>
       </div>
-    </nav>
+      <LocationSidebar 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
+      />
+    </>
   );
 };
 

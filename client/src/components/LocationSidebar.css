@@ -1,0 +1,177 @@
+.location-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(40, 44, 63, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  cursor: pointer;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.location-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 33%;
+  min-width: 350px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+  padding: 30px 40px;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  animation: slideInLeft 0.3s cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.sidebar-header {
+  margin-bottom: 30px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s;
+}
+
+.close-btn:hover {
+  transform: scale(1.1);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Search Input */
+.search-container {
+  margin-bottom: 25px;
+}
+
+.location-search-input {
+  width: 100%;
+  padding: 15px 20px;
+  border: 1px solid #d4d5d9;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #3d4152;
+  box-shadow: 0 1px 5px rgba(40, 44, 63, 0.08);
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.location-search-input:focus {
+  box-shadow: 0 2px 12px rgba(40, 44, 63, 0.15);
+}
+
+/* Current Location Box */
+.current-location-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid #d4d5d9;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 35px;
+}
+
+.current-location-box:hover {
+  border-color: #3d4152;
+  background-color: #fafafb;
+}
+
+.current-location-text .cl-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #282c3f;
+  margin-bottom: 4px;
+}
+
+.current-location-text .cl-subtitle {
+  font-size: 13px;
+  color: #686b78;
+}
+
+/* Saved Addresses Section */
+.saved-addresses-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  font-size: 12px;
+  color: #7e818c;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 25px;
+}
+
+.address-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 15px 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.address-item:hover {
+  transform: translateX(5px);
+}
+
+.addr-icon {
+  margin-top: 2px;
+  color: #282c3f;
+}
+
+.addr-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #282c3f;
+  margin-bottom: 6px;
+}
+
+.addr-full {
+  font-size: 13px;
+  color: #7e818c;
+  line-height: 1.5;
+}
+
+.addr-separator {
+  height: 1px;
+  border-top: 1px dashed #d4d5d9;
+  margin: 10px 0;
+  width: 100%;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .location-sidebar {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .location-sidebar {
+    width: 100%;
+    min-width: 100%;
+    padding: 20px;
+  }
+}
