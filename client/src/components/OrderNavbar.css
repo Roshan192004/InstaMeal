@@ -160,8 +160,8 @@
 }
 
 @media (max-width: 480px) {
-  .on-nav-item:nth-child(1),
-  .on-nav-item:nth-child(4) {
-    display: none; /* Hide Corporate and Help on very small screens */
+  /* On very small mobile, we hide even more to save space */
+  .on-center {
+    gap: 12px;
   }
 }
