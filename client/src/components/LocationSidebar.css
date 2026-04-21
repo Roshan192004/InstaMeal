@@ -132,8 +132,23 @@
   transition: transform 0.2s;
 }
 
-.address-item:hover {
-  transform: translateX(5px);
+.current-location-box.fetching {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.loader-mini {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fc8019;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .addr-icon {

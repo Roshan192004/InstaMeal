@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LocationSidebar.css';
 
 const LocationSidebar = ({ isOpen, onClose, onSelectAddress }) => {
+  const [isFetching, setIsFetching] = useState(false);
+
   const handleGetCurrentLocation = () => {
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        // In a real app, you'd use reverse geocoding here. 
-        // For now, we'll simulate finding the address.
-        onSelectAddress({ 
-          type: "CURRENT", 
-          addr: `Detected: Lat ${position.coords.latitude.toFixed(2)}, Lng ${position.coords.longitude.toFixed(2)}` 
-        });
-        onClose();
+      setIsFetching(true);
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await response.json();
+          
+          if (data && data.display_name) {
+            onSelectAddress({ 
+              type: "CURRENT", 
+              addr: data.display_name 
+            });
+          } else {
+            // Fallback to coordinates if no address found
+            onSelectAddress({ 
+              type: "CURRENT", 
+              addr: `Lat: ${latitude.toFixed(2)}, Lng: ${longitude.toFixed(2)}` 
+            });
+          }
+          onClose();
+        } catch (error) {
+          console.error("Error fetching address:", error);
+          alert("Error fetching accurate address. Please try again.");
+        } finally {
+          setIsFetching(false);
+        }
       }, (error) => {
+        setIsFetching(false);
         alert("Unable to retrieve your location. Please check your browser permissions.");
       });
     } else {
@@ -45,18 +68,25 @@ const LocationSidebar = ({ isOpen, onClose, onSelectAddress }) => {
           </div>
 
           {/* Current Location */}
-          <div className="current-location-box" onClick={handleGetCurrentLocation}>
+          <div 
+            className={`current-location-box ${isFetching ? 'fetching' : ''}`} 
+            onClick={!isFetching ? handleGetCurrentLocation : null}
+          >
             <div className="gps-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="22" y1="12" x2="18" y2="12"></line>
-                <line x1="6" y1="12" x2="2" y2="12"></line>
-                <line x1="12" y1="6" x2="12" y2="2"></line>
-                <line x1="12" y1="22" x2="12" y2="18"></line>
-              </svg>
+              {isFetching ? (
+                <div className="loader-mini"></div>
+              ) : (
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="22" y1="12" x2="18" y2="12"></line>
+                  <line x1="6" y1="12" x2="2" y2="12"></line>
+                  <line x1="12" y1="6" x2="12" y2="2"></line>
+                  <line x1="12" y1="22" x2="12" y2="18"></line>
+                </svg>
+              )}
             </div>
             <div className="current-location-text">
-              <div className="cl-title">Get current location</div>
+              <div className="cl-title">{isFetching ? 'Fetching accurate address...' : 'Get current location'}</div>
               <div className="cl-subtitle">Using GPS</div>
             </div>
           </div>
