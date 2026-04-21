@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Home.css";
 
 function Home() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [showSignupSuccess, setShowSignupSuccess] = useState(false);
 
   useEffect(() => {
@@ -57,7 +58,7 @@ function Home() {
 
           {/* CTA Buttons */}
           <div className="hero-cta">
-            <button className="btn-order-now" id="btn-order-now">
+            <button className="btn-order-now" id="btn-order-now" onClick={() => navigate('/order')}>
               Order Now →
             </button>
             <button className="btn-explore" id="btn-explore-menu">
