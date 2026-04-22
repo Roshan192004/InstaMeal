@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import LocationSidebar from './LocationSidebar';
 import './OrderNavbar.css';
 
 const OrderNavbar = () => {
+  const { user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [location, setLocation] = useState({
     type: "HOME",
@@ -43,13 +45,15 @@ const OrderNavbar = () => {
 
         {/* Navigation Items */}
         <div className="on-center">
-          <div className="on-nav-item on-search">
-            <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <span className="on-label">Search</span>
-          </div>
+          <Link to="/search" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="on-nav-item on-search">
+              <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span className="on-label">Search</span>
+            </div>
+          </Link>
           <div className="on-nav-item">
             <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10"></circle>
@@ -66,7 +70,7 @@ const OrderNavbar = () => {
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span className="on-label">Roshan P...</span>
+            <span className="on-label">{user ? user.name : 'Sign In'}</span>
           </div>
           <div className="on-nav-item on-cart">
             <div className="cart-icon-container">

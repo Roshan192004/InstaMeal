@@ -1,0 +1,170 @@
+.search-page-container {
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.search-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.search-box-wrapper {
+  margin-bottom: 40px;
+  position: sticky;
+  top: 80px;
+  background: white;
+  z-index: 10;
+  padding: 10px 0;
+}
+
+.search-input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #bebfc5;
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 50px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.search-input-group:focus-within {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.search-page-icon {
+  color: #686b78;
+  margin-right: 12px;
+}
+
+.search-page-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #282c3f;
+}
+
+.clear-search {
+  background: none;
+  border: none;
+  color: #bebfc5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+/* Suggestions */
+.suggestion-section {
+  margin-bottom: 48px;
+}
+
+.suggestion-section h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #3d4152;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.suggestion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #e9e9eb;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #686b78;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-tag:hover {
+  background-color: #f2f2f3;
+  border-color: #bebfc5;
+  color: #282c3f;
+}
+
+.popular-cuisines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 24px;
+}
+
+.cuisine-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cuisine-item:hover {
+  transform: translateY(-4px);
+}
+
+.cuisine-img-placeholder {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #FF4D00 0%, #FF0080 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(255, 77, 0, 0.2);
+}
+
+.cuisine-item span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #686b78;
+}
+
+/* Searching Animation */
+.search-results-placeholder {
+  display: flex;
+  flex-direction: column;
+  items-center: center;
+  justify-content: center;
+  padding: 100px 0;
+  text-align: center;
+  color: #93959f;
+}
+
+.searching-animation {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #FF4D00;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  to { transform: translateY(-10px); opacity: 0.5; }
+}

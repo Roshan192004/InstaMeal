@@ -5,7 +5,10 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Order from "./pages/Order";
+import Search from "./pages/Search";
 import Footer from "./components/Footer";
+
+import { AuthProvider } from "./context/AuthContext";
 
 function AppContent() {
   const location = useLocation();
@@ -19,6 +22,7 @@ function AppContent() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/order" element={<Order />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
       </Routes>
       {!isAdminRoute && <Footer />}
@@ -29,7 +33,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

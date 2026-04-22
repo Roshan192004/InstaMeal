@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Navbar.css";
 
 function Navbar() {
+  const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -32,8 +34,17 @@ function Navbar() {
           <a href="#about" className="nav-link">About</a>
         </div>
         <div className="auth-buttons">
-          <Link to="/signin" className="btn-signin" style={{ textDecoration: 'none' }}>Sign In</Link>
-          <Link to="/signup" className="btn-signup-nav" style={{ textDecoration: 'none' }}>Sign Up</Link>
+          {user ? (
+            <>
+              <span className="user-name-nav">{user.name}</span>
+              <button onClick={logout} className="btn-signin" style={{ background: 'transparent', border: '1px solid #ccc', cursor: 'pointer' }}>Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/signin" className="btn-signin" style={{ textDecoration: 'none' }}>Sign In</Link>
+              <Link to="/signup" className="btn-signup-nav" style={{ textDecoration: 'none' }}>Sign Up</Link>
+            </>
+          )}
         </div>
         <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           <span></span><span></span><span></span>

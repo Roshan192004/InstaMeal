@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Signin.css";
 
 function Signin() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -33,8 +35,8 @@ function Signin() {
         throw new Error(data.message || "Something went wrong");
       }
 
-      // Save token to local storage 
-      localStorage.setItem("token", data.token);
+      // Use AuthContext to save user data
+      login(data);
 
       // Redirection logic based on role
       if (data.role === "admin") {

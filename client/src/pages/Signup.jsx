@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Signup.css";
 
 function Signup() {
@@ -13,6 +14,7 @@ function Signup() {
 
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,8 +49,8 @@ function Signup() {
         throw new Error(data.message || "Registration failed");
       }
 
-      // Save token to local storage 
-      localStorage.setItem("token", data.token);
+      // Use AuthContext to save user data and log in
+      login(data);
 
       // Redirection logic based on role. We pass a state flag so the destination can show the success message.
       if (data.role === "admin") {
