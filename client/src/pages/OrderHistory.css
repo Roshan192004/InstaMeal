@@ -1,0 +1,412 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+.orders-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #fff0f5, #f0e8ff);
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 80px;
+}
+
+/* Loading */
+.orders-loading {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #888;
+}
+
+.orders-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #f0e0f0;
+  border-top-color: #FF0080;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Container */
+.orders-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* Header */
+.orders-header {
+  margin-bottom: 32px;
+}
+
+.orders-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+
+.orders-sub {
+  color: #888;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Empty state */
+.orders-empty {
+  text-align: center;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.orders-empty-icon { font-size: 5rem; }
+
+.orders-empty h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.orders-empty p { color: #888; margin: 0; }
+
+.btn-browse {
+  margin-top: 16px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #FF6B35, #FF0080);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 6px 20px rgba(255,0,128,0.25);
+}
+
+.btn-browse:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,0,128,0.35); }
+
+/* Order list */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Order card */
+.order-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.order-card:hover {
+  box-shadow: 0 12px 36px rgba(255,0,128,0.1);
+  transform: translateY(-2px);
+}
+
+/* Card header */
+.order-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.order-restaurant-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.order-date {
+  font-size: 0.82rem;
+  color: #aaa;
+}
+
+/* Status chips */
+.order-status-chip {
+  padding: 5px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chip-blue     { background: #eff6ff; color: #3b82f6; }
+.chip-yellow   { background: #fffbeb; color: #d97706; }
+.chip-purple   { background: #f5f3ff; color: #7c3aed; }
+.chip-orange   { background: #fff7ed; color: #ea580c; }
+.chip-green    { background: #f0fdf4; color: #16a34a; }
+.chip-red      { background: #fef2f2; color: #dc2626; }
+.chip-grey     { background: #f5f5f5; color: #888; }
+
+/* Items summary */
+.order-items-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.order-item-tag {
+  background: #f5f5f5;
+  color: #555;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 50px;
+}
+
+.order-item-tag.more {
+  background: #fff0f5;
+  color: #FF0080;
+  font-weight: 600;
+}
+
+/* Card footer */
+.order-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 1px solid #f5f5f5;
+}
+
+.order-total-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-total-amount {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.order-items-count {
+  font-size: 0.82rem;
+  color: #aaa;
+}
+
+/* Action buttons */
+.order-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.order-action-btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-track {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.btn-track:hover { background: #3b82f6; color: white; }
+
+.btn-reorder {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.btn-reorder:hover { background: #16a34a; color: white; }
+
+.btn-rate {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.btn-rate:hover { background: #d97706; color: white; }
+
+.btn-invoice {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.btn-invoice:hover { background: #7c3aed; color: white; }
+
+.rated-badge {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #16a34a;
+  padding: 6px 12px;
+  background: #f0fdf4;
+  border-radius: 10px;
+}
+
+/* Existing ratings display */
+.existing-rating {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f5f5f5;
+  font-size: 0.82rem;
+  color: #888;
+}
+
+.existing-rating span { color: #f59e0b; }
+
+/* ===== RATING MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.rating-modal {
+  background: white;
+  border-radius: 24px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+}
+
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f5f5f5;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #888;
+  transition: all 0.2s;
+}
+
+.modal-close-btn:hover { background: #ffe0f0; color: #FF0080; }
+
+.rating-modal-icon { font-size: 3rem; margin-bottom: 8px; }
+
+.rating-modal-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+
+.rating-modal-sub {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin: 0 0 24px;
+}
+
+/* Rating categories */
+.rating-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.rating-category {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rating-category-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Stars */
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #e0e0e0;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s, transform 0.15s;
+  line-height: 1;
+}
+
+.star-btn:hover { color: #f59e0b; transform: scale(1.15); }
+.star-btn.active { color: #f59e0b; }
+
+/* Submit button */
+.rating-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #FF6B35, #FF0080);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 6px 20px rgba(255,0,128,0.25);
+}
+
+.rating-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(255,0,128,0.35);
+}
+
+.rating-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .orders-container { padding: 24px 16px; }
+  .order-card-footer { flex-direction: column; align-items: flex-start; }
+  .order-actions { width: 100%; }
+  .order-action-btn { flex: 1; text-align: center; }
+  .existing-rating { flex-direction: column; gap: 6px; }
+}
