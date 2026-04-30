@@ -232,3 +232,110 @@
   font-size: 15px;
   margin: 0;
 }
+
+/* ---- OTP / Phone Tab styles ---- */
+.signin-tabs {
+  display: flex;
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.signin-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.signin-tab.active {
+  background: white;
+  color: #FF0080;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.phone-input-row {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fcfcfc;
+  transition: all 0.2s ease;
+}
+
+.phone-input-row:focus-within {
+  border-color: #FF0080;
+  box-shadow: 0 0 0 4px rgba(255, 0, 128, 0.1);
+}
+
+.phone-prefix {
+  padding: 14px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  border-right: 1.5px solid #e0e0e0;
+  background: #f5f5f5;
+  user-select: none;
+}
+
+.phone-input-row input {
+  flex: 1;
+  padding: 14px 16px;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent;
+  font-size: 15px;
+  color: #333;
+}
+
+.phone-input-row input:focus {
+  outline: none;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+.otp-hint {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.otp-input {
+  text-align: center;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: 8px;
+  padding: 14px !important;
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: #FF0080;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  transition: color 0.2s;
+}
+
+.resend-btn:hover {
+  color: #FF6B35;
+  text-decoration: underline;
+}
+
+.btn-signin-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
