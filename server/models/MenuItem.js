@@ -5,12 +5,15 @@ const menuItemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: { type: String, default: "" },
   price: {
     type: Number,
     required: true,
   },
   category: String,
   image: String,
+  isVeg: { type: Boolean, default: false },
+  isAvailable: { type: Boolean, default: true },
   restaurant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Restaurant",

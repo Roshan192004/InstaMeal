@@ -4,6 +4,7 @@ dotenv.config();
 
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 //  DB Connection
 const connectDB = require("./config/db");
@@ -12,14 +13,22 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 app.use(express.json());
+app.use(cookieParser());
 
-//  ==ROUTES ==
+// ==ROUTES ==
 
 // Auth Routes
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
+
+// Firebase Phone Auth
+const firebaseAuthRoutes = require("./routes/firebaseAuthRoutes");
+app.use("/api/auth", firebaseAuthRoutes);
 
 // User Routes
 const userRoutes = require("./routes/userRoutes");
@@ -28,13 +37,20 @@ app.use("/api/users", userRoutes);
 // Restaurant & Menu Routes
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const menuRoutes = require("./routes/menuRoutes");
-
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/menu", menuRoutes);
 
 // Order Routes
 const orderRoutes = require("./routes/orderRoutes");
 app.use("/api/orders", orderRoutes);
+
+// Payment Routes
+const paymentRoutes = require("./routes/paymentRoutes");
+app.use("/api/payment", paymentRoutes);
+
+// Coupon Routes
+const couponRoutes = require("./routes/couponRoutes");
+app.use("/api/coupon", couponRoutes);
 
 // Test Route
 app.get("/", (req, res) => {
@@ -44,32 +60,36 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 //  SOCKET.IO SETUP
-//  Import http and socket.io
 const http = require("http");
 const { Server } = require("socket.io");
 
-// Create server using http 
 const server = http.createServer(app);
 
-//  Initialize Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "*", // allow all origins (for development)
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
 app.set("io", io);
-//  Socket connection logic
+
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
-  //  listen custom event
+  // Rider joins order room
+  socket.on("joinOrderRoom", (orderId) => {
+    socket.join(`order_${orderId}`);
+    console.log(`Socket ${socket.id} joined room: order_${orderId}`);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
   });
 });
 
-//  SERVER START 
+//  SERVER START
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

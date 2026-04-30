@@ -9,20 +9,49 @@ const orderSchema = new mongoose.Schema({
   restaurant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Restaurant",
-    required: true,
+    required: false,
   },
   items: [
     {
+      menuItemId: { type: mongoose.Schema.Types.ObjectId, ref: "MenuItem" },
       name: String,
       price: Number,
       quantity: Number,
-    }
+      image: String,
+    },
   ],
   totalPrice: Number,
+  deliveryFee: { type: Number, default: 30 },
+  discount: { type: Number, default: 0 },
+  coupon: { type: String, default: "" },
+  paymentId: { type: String, default: "" },
+  paymentStatus: {
+    type: String,
+    enum: ["pending", "paid", "failed"],
+    default: "pending",
+  },
+  address: {
+    street: { type: String, default: "" },
+    city: { type: String, default: "" },
+    coordinates: {
+      lat: { type: Number, default: 0 },
+      lng: { type: Number, default: 0 },
+    },
+  },
+  riderLocation: {
+    lat: { type: Number, default: 0 },
+    lng: { type: Number, default: 0 },
+  },
+  rating: {
+    food: { type: Number, default: 0 },
+    rider: { type: Number, default: 0 },
+    restaurant: { type: Number, default: 0 },
+    isRated: { type: Boolean, default: false },
+  },
   status: {
     type: String,
-    enum: ["pending", "preparing", "out_for_delivery", "delivered", "cancelled"],
-    default: "pending",
+    enum: ["confirmed", "preparing", "picked_up", "arriving", "delivered", "cancelled"],
+    default: "confirmed",
   },
 }, { timestamps: true });
 
