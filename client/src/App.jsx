@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Signup from "./pages/Signup";
@@ -6,9 +6,20 @@ import Signin from "./pages/Signin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Order from "./pages/Order";
 import Search from "./pages/Search";
+import Restaurant from "./pages/Restaurant";
+import Tracking from "./pages/Tracking";
+import OrderHistory from "./pages/OrderHistory";
 import Footer from "./components/Footer";
 
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
+
+// Protected route — redirects to /signin if not logged in
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#fff',background:'#0f0f0f' }}>Loading…</div>;
+  return user ? children : <Navigate to="/signin" replace />;
+}
 
 function AppContent() {
   const location = useLocation();
@@ -17,13 +28,21 @@ function AppContent() {
   return (
     <>
       <Routes>
+        {/* Public */}
         <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/order" element={<Order />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/order" element={<Order />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
+
+        {/* Restaurant menu page */}
+        <Route path="/restaurant/:id" element={<Restaurant />} />
+
+        {/* Protected customer routes */}
+        <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+        <Route path="/tracking/:orderId" element={<ProtectedRoute><Tracking /></ProtectedRoute>} />
+        <Route path="/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
       </Routes>
       {!isAdminRoute && <Footer />}
     </>
@@ -34,7 +53,9 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppContent />
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
       </AuthProvider>
     </BrowserRouter>
   );

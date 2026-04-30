@@ -150,3 +150,62 @@
     display: none;
   }
 }
+
+/* ===== CART ICON ===== */
+.cart-nav-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.2s;
+  background: rgba(255,0,128,0.06);
+}
+
+.cart-nav-btn:hover {
+  color: #FF0080;
+  background: rgba(255,0,128,0.12);
+  transform: scale(1.08);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: linear-gradient(135deg, #FF6B35, #FF0080);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid white;
+  line-height: 1;
+  animation: badgePop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes badgePop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+/* ===== USER NAME ===== */
+.user-name-nav {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #555;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .user-name-nav { display: none; }
+}
+
