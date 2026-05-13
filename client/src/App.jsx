@@ -9,6 +9,7 @@ import Search from "./pages/Search";
 import Restaurant from "./pages/Restaurant";
 import Tracking from "./pages/Tracking";
 import OrderHistory from "./pages/OrderHistory";
+import PartnerDashboard from "./pages/PartnerDashboard";
 import Footer from "./components/Footer";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
@@ -19,6 +20,17 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#fff',background:'#0f0f0f' }}>Loading…</div>;
   return user ? children : <Navigate to="/signin" replace />;
+}
+
+// Partner route — only for store owners
+function PartnerRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#fff',background:'#0f0f0f' }}>Loading…</div>;
+  if (!user) return <Navigate to="/signin" replace />;
+  if (user.role !== 'store_owner' && user.role !== 'admin') {
+    return <Navigate to="/" replace />;
+  }
+  return children;
 }
 
 function AppContent() {
@@ -35,6 +47,7 @@ function AppContent() {
         <Route path="/search" element={<Search />} />
         <Route path="/order" element={<Order />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/partner/*" element={<PartnerRoute><PartnerDashboard /></PartnerRoute>} />
 
         {/* Restaurant menu page */}
         <Route path="/restaurant/:id" element={<Restaurant />} />

@@ -53,6 +53,15 @@
   color: #FF0080;
 }
 
+.partner-highlight {
+  color: #FF6B35 !important;
+  font-weight: 700 !important;
+}
+
+.partner-highlight:hover {
+  color: #e5521e !important;
+}
+
 .navbar-actions {
   display: flex;
   align-items: center;

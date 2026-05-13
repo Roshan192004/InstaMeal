@@ -44,6 +44,9 @@ function Navbar() {
           {user && (
             <Link to="/orders" className="nav-link">Orders</Link>
           )}
+          {(user?.role === 'store_owner' || user?.role === 'admin') && (
+            <Link to="/partner" className="nav-link partner-highlight">Partner</Link>
+          )}
         </div>
 
         <div className="auth-buttons">

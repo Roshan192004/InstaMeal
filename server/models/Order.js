@@ -53,6 +53,8 @@ const orderSchema = new mongoose.Schema({
     enum: ["confirmed", "preparing", "picked_up", "arriving", "delivered", "cancelled"],
     default: "confirmed",
   },
+  prepTime: { type: Number, default: 20 },        // minutes set by restaurant on accept
+  rejectionReason: { type: String, default: "" },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Order", orderSchema);
