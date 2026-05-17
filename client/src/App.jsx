@@ -15,6 +15,8 @@ import Footer from "./components/Footer";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 
+import RiderDashboard from "./pages/RiderDashboard";
+
 // Protected route — redirects to /signin if not logged in
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -33,9 +35,19 @@ function PartnerRoute({ children }) {
   return children;
 }
 
+// Rider route
+function RiderRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#fff',background:'#0f0f0f' }}>Loading…</div>;
+  if (!user) return <Navigate to="/signin" replace />;
+  // Allow all logged-in users to access /rider to register as rider, or if they are already rider/admin.
+  return children;
+}
+
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isRiderRoute = location.pathname.startsWith('/rider');
 
   return (
     <>
@@ -48,6 +60,7 @@ function AppContent() {
         <Route path="/order" element={<Order />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/partner/*" element={<PartnerRoute><PartnerDashboard /></PartnerRoute>} />
+        <Route path="/rider/*" element={<RiderRoute><RiderDashboard /></RiderRoute>} />
 
         {/* Restaurant menu page */}
         <Route path="/restaurant/:id" element={<Restaurant />} />
@@ -57,7 +70,7 @@ function AppContent() {
         <Route path="/tracking/:orderId" element={<ProtectedRoute><Tracking /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
       </Routes>
-      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && !isRiderRoute && <Footer />}
     </>
   );
 }

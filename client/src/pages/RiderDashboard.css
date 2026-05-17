@@ -1,0 +1,230 @@
+.rider-dashboard-container {
+  min-height: 100vh;
+  background-color: #0f0f0f;
+  color: #fff;
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.rider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.rider-header h1 {
+  font-size: 2rem;
+  color: #00d2ff;
+  margin: 0;
+}
+
+.status-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.status-badge.offline { background-color: #444; color: #ccc; }
+.status-badge.online { background-color: #2e7d32; color: #fff; }
+.status-badge.on_delivery { background-color: #f57c00; color: #fff; }
+
+.toggle-btn {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background: #444;
+}
+
+/* Registration Form */
+.rider-registration {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #1a1a1a;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.rider-registration h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #00d2ff;
+}
+
+.rider-registration form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rider-registration input,
+.rider-registration select {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.register-btn {
+  background: #00d2ff;
+  color: #000;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.register-btn:hover {
+  background: #009ecc;
+}
+
+/* Dashboard Layout */
+.rider-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #aaa;
+  font-size: 1rem;
+}
+
+.stat-card .value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00d2ff;
+}
+
+/* Active Order Section */
+.active-order-section {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.no-order {
+  padding: 3rem;
+  color: #888;
+}
+
+.find-order-btn {
+  background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.find-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+}
+
+.order-details {
+  text-align: left;
+}
+
+.order-details h3 {
+  margin-top: 0;
+  color: #f57c00;
+  border-bottom: 1px solid #333;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.location-box {
+  background: #2a2a2a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.location-box h4 {
+  margin: 0 0 0.5rem 0;
+  color: #00d2ff;
+}
+
+.location-box p {
+  margin: 0.25rem 0;
+  color: #ccc;
+}
+
+.order-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.action-btn {
+  padding: 1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.action-btn:hover {
+  opacity: 0.9;
+}
+
+.btn-primary { background: #00d2ff; color: #000; }
+.btn-success { background: #2e7d32; color: #fff; }
+
+.otp-input-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.otp-input-group input {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+}
