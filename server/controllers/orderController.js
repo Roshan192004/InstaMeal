@@ -5,6 +5,8 @@ exports.placeOrder = async (req, res) => {
   try {
     const { items, totalPrice, deliveryFee, discount, coupon, paymentId, address, restaurantId } = req.body;
 
+    const deliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
     const order = await Order.create({
       user: req.user._id,
       restaurant: restaurantId || undefined,
@@ -17,34 +19,13 @@ exports.placeOrder = async (req, res) => {
       paymentStatus: paymentId ? "paid" : "pending",
       address: address || {},
       status: "confirmed",
+      deliveryOtp,
     });
 
     const io = req.app.get("io");
 
     // Emit status progression
     io.emit("orderStatus", { orderId: order._id, status: "confirmed" });
-
-    setTimeout(() => {
-      io.emit("orderStatus", { orderId: order._id.toString(), status: "preparing" });
-    }, 5000);
-
-    setTimeout(() => {
-      io.emit("orderStatus", { orderId: order._id.toString(), status: "picked_up" });
-    }, 15000);
-
-    setTimeout(() => {
-      io.emit("orderStatus", { orderId: order._id.toString(), status: "arriving" });
-      // Simulate rider location
-      io.emit("riderLocation", {
-        orderId: order._id.toString(),
-        lat: (address?.coordinates?.lat || 28.6139) + 0.002,
-        lng: (address?.coordinates?.lng || 77.2090) + 0.002,
-      });
-    }, 25000);
-
-    setTimeout(() => {
-      io.emit("orderStatus", { orderId: order._id.toString(), status: "delivered" });
-    }, 40000);
 
     res.status(201).json(order);
   } catch (error) {

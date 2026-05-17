@@ -196,12 +196,12 @@ exports.markFoodReady = async (req, res) => {
 
     const order = await Order.findOneAndUpdate(
       { _id: req.params.orderId, restaurant: restaurant._id, status: "preparing" },
-      { status: "picked_up" },
+      { status: "ready_for_pickup" },
       { new: true }
     );
     if (!order) return res.status(404).json({ message: "Order not found or not in preparing state" });
 
-    req.app.get("io").emit("orderStatus", { orderId: order._id.toString(), status: "picked_up" });
+    req.app.get("io").emit("orderStatus", { orderId: order._id.toString(), status: "ready_for_pickup" });
 
     res.json({ message: "Food marked as ready, rider notified", order });
   } catch (err) {
