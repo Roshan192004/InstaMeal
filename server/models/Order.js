@@ -48,9 +48,18 @@ const orderSchema = new mongoose.Schema({
     restaurant: { type: Number, default: 0 },
     isRated: { type: Boolean, default: false },
   },
+  rider: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Rider",
+    required: false,
+  },
+  deliveryOtp: {
+    type: String,
+    default: "",
+  },
   status: {
     type: String,
-    enum: ["confirmed", "preparing", "picked_up", "arriving", "delivered", "cancelled"],
+    enum: ["confirmed", "preparing", "ready_for_pickup", "picked_up", "arriving", "delivered", "cancelled"],
     default: "confirmed",
   },
   prepTime: { type: Number, default: 20 },        // minutes set by restaurant on accept
