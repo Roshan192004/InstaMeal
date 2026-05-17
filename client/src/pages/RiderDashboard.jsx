@@ -26,7 +26,9 @@ const RiderDashboard = () => {
   const fetchRiderProfile = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:5000/api/rider/profile", {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
       setRider(res.data);
@@ -46,7 +48,9 @@ const RiderDashboard = () => {
 
   const fetchAssignedOrder = async () => {
     try {
+      const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:5000/api/rider/order", {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
       if (res.data.order) {
@@ -70,7 +74,9 @@ const RiderDashboard = () => {
         },
         zone: formData.zone
       };
+      const token = localStorage.getItem("token");
       await axios.post("http://localhost:5000/api/rider/register", payload, {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
       fetchRiderProfile();
@@ -84,7 +90,9 @@ const RiderDashboard = () => {
     if (rider.status === "on_delivery") return;
     const newStatus = rider.status === "online" ? "offline" : "online";
     try {
+      const token = localStorage.getItem("token");
       await axios.post("http://localhost:5000/api/rider/status", { status: newStatus }, {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
       setRider({ ...rider, status: newStatus });
@@ -95,7 +103,9 @@ const RiderDashboard = () => {
 
   const findOrder = async () => {
     try {
+      const token = localStorage.getItem("token");
       const res = await axios.post("http://localhost:5000/api/rider/accept-order", {}, {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
       setOrder(res.data.order);
@@ -111,7 +121,9 @@ const RiderDashboard = () => {
       const payload = { orderId: order._id, status };
       if (deliveryOtp) payload.deliveryOtp = deliveryOtp;
 
+      const token = localStorage.getItem("token");
       await axios.post("http://localhost:5000/api/rider/order-status", payload, {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
 

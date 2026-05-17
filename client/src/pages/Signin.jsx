@@ -43,6 +43,7 @@ function Signin() {
       if (!response.ok) throw new Error(data.message || "Something went wrong");
       login(data);
       if (data.role === "admin") navigate("/admin");
+      else if (data.role === "rider") navigate("/rider");
       else navigate("/");
     } catch (error) {
       setErrorMsg(error.message);

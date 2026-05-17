@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const riderController = require("../controllers/riderController");
-const { verifyToken } = require("../controllers/authController");
+const protect = require("../middleware/authMiddleware");
 
 // Require auth for all rider routes
-router.use(verifyToken);
+router.use(protect);
 
 router.post("/register", riderController.registerRider);
 router.get("/profile", riderController.getRiderProfile);

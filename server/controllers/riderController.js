@@ -8,13 +8,13 @@ exports.registerRider = async (req, res) => {
     const { aadharNumber, vehicleRc, licenseNumber, bankDetails, zone } = req.body;
     
     // Check if rider already exists
-    let rider = await Rider.findOne({ user: req.user.userId });
+    let rider = await Rider.findOne({ user: req.user._id });
     if (rider) {
       return res.status(400).json({ message: "Rider profile already exists" });
     }
 
     rider = new Rider({
-      user: req.user.userId,
+      user: req.user._id,
       aadharNumber,
       vehicleRc,
       licenseNumber,
@@ -25,7 +25,7 @@ exports.registerRider = async (req, res) => {
     await rider.save();
     
     // Update user role to rider
-    await User.findByIdAndUpdate(req.user.userId, { role: "rider" });
+    await User.findByIdAndUpdate(req.user._id, { role: "rider" });
 
     res.status(201).json({ message: "Rider registered successfully", rider });
   } catch (error) {
@@ -37,7 +37,7 @@ exports.registerRider = async (req, res) => {
 // Get rider profile
 exports.getRiderProfile = async (req, res) => {
   try {
-    const rider = await Rider.findOne({ user: req.user.userId }).populate("user", "name phone email");
+    const rider = await Rider.findOne({ user: req.user._id }).populate("user", "name phone email");
     if (!rider) {
       return res.status(404).json({ message: "Rider profile not found" });
     }
@@ -52,7 +52,7 @@ exports.getRiderProfile = async (req, res) => {
 exports.toggleStatus = async (req, res) => {
   try {
     const { status } = req.body; // 'online' or 'offline'
-    const rider = await Rider.findOne({ user: req.user.userId });
+    const rider = await Rider.findOne({ user: req.user._id });
     
     if (!rider) {
       return res.status(404).json({ message: "Rider profile not found" });
@@ -75,7 +75,7 @@ exports.toggleStatus = async (req, res) => {
 // Get active or assigned order
 exports.getAssignedOrder = async (req, res) => {
   try {
-    const rider = await Rider.findOne({ user: req.user.userId });
+    const rider = await Rider.findOne({ user: req.user._id });
     if (!rider) return res.status(404).json({ message: "Rider not found" });
 
     // Find any order assigned to this rider that is not delivered or cancelled
@@ -94,7 +94,7 @@ exports.getAssignedOrder = async (req, res) => {
 // Accept order
 exports.acceptOrder = async (req, res) => {
   try {
-    const rider = await Rider.findOne({ user: req.user.userId });
+    const rider = await Rider.findOne({ user: req.user._id });
     if (!rider) return res.status(404).json({ message: "Rider not found" });
     if (rider.status !== "online") {
       return res.status(400).json({ message: "Must be online to accept orders" });
@@ -130,7 +130,7 @@ exports.updateLocation = async (req, res) => {
   try {
     const { lat, lng } = req.body;
     const rider = await Rider.findOneAndUpdate(
-      { user: req.user.userId },
+      { user: req.user._id },
       { "location.lat": lat, "location.lng": lng },
       { new: true }
     );
@@ -154,7 +154,7 @@ exports.updateLocation = async (req, res) => {
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { orderId, status, deliveryOtp } = req.body;
-    const rider = await Rider.findOne({ user: req.user.userId });
+    const rider = await Rider.findOne({ user: req.user._id });
     if (!rider) return res.status(404).json({ message: "Rider not found" });
 
     const order = await Order.findById(orderId);

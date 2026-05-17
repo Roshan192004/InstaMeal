@@ -55,6 +55,8 @@ function Signup() {
       // Redirection logic based on role. We pass a state flag so the destination can show the success message.
       if (data.role === "admin") {
         navigate("/admin", { state: { showSignupSuccess: true } });
+      } else if (data.role === "rider") {
+        navigate("/rider", { state: { showSignupSuccess: true } });
       } else {
         navigate("/", { state: { showSignupSuccess: true } });
       }
@@ -163,6 +165,7 @@ function Signup() {
             >
               <option value="customer">Customer</option>
               <option value="store_owner">Store Owner</option>
+              <option value="rider">Delivery Partner (Rider)</option>
               <option value="admin">Admin</option>
             </select>
           </div>
