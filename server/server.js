@@ -56,6 +56,10 @@ app.use("/api/coupon", couponRoutes);
 const partnerRoutes = require("./routes/partnerRoutes");
 app.use("/api/partner", partnerRoutes);
 
+// Rider Routes
+const riderRoutes = require("./routes/riderRoutes");
+app.use("/api/rider", riderRoutes);
+
 // Test Route
 app.get("/", (req, res) => {
   res.send("InstaMeal API is running 🚀");
