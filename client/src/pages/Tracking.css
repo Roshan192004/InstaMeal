@@ -127,6 +127,28 @@
   color: #fdba74;
 }
 
+.delivery-pin {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pin-label {
+  font-size: 0.8rem;
+  color: #a0aec0;
+}
+
+.pin-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00d2ff;
+  letter-spacing: 2px;
+}
+
 /* Delivered banner */
 .delivered-banner {
   background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.2));
