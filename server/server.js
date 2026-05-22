@@ -60,6 +60,10 @@ app.use("/api/partner", partnerRoutes);
 const riderRoutes = require("./routes/riderRoutes");
 app.use("/api/rider", riderRoutes);
 
+// Admin Routes
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/api/admin", adminRoutes);
+
 // Test Route
 app.get("/", (req, res) => {
   res.send("InstaMeal API is running 🚀");
