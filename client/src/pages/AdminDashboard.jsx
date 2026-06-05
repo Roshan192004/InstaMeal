@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import "./AdminDashboard.css";
@@ -13,7 +13,13 @@ const API_URL = "http://localhost:5000/api";
 
 function AdminDashboard() {
   const location = useLocation();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/signin");
+  };
   const [activeTab, setActiveTab] = useState("home"); // "home" represents the visual diagram flowchart
   const [showNotificationToast, setShowNotificationToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -377,10 +383,14 @@ function AdminDashboard() {
         </nav>
 
         <div className="sidebar-bottom">
-          <Link to="/" className="sidebar-link">
+          <button 
+            onClick={handleLogout} 
+            className="sidebar-link" 
+            style={{ background: 'transparent', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit' }}
+          >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-            Exit Console
-          </Link>
+            Logout
+          </button>
         </div>
       </aside>
 
