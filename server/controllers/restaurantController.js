@@ -79,12 +79,32 @@ exports.getNearbyRestaurants = async (req, res) => {
     }
 
     const restaurants = await Restaurant.find(query).limit(20);
-    res.json(restaurants);
+    
+    // Fetch restaurants with default [0, 0] coordinates to display in development/testing
+    const defaultQuery = { "location.coordinates": [0, 0] };
+    if (cuisine && cuisine !== "All") {
+      defaultQuery.cuisine = { $regex: cuisine, $options: "i" };
+    }
+    const defaultRestaurants = await Restaurant.find(defaultQuery).limit(10);
+    
+    // Combine lists without duplicates
+    const combined = [...restaurants];
+    for (const r of defaultRestaurants) {
+      if (!combined.some(existing => existing._id.toString() === r._id.toString())) {
+        combined.push(r);
+      }
+    }
+
+    res.json(combined);
   } catch (error) {
     // Fallback: if no geo-indexed docs found, return all restaurants
     console.error("Geo query error, falling back:", error.message);
     try {
-      const fallback = await Restaurant.find({}).limit(20);
+      const fallbackQuery = {};
+      if (cuisine && cuisine !== "All") {
+        fallbackQuery.cuisine = { $regex: cuisine, $options: "i" };
+      }
+      const fallback = await Restaurant.find(fallbackQuery).limit(20);
       res.json(fallback);
     } catch (err) {
       res.status(500).json({ message: err.message });
