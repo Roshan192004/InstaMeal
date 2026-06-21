@@ -91,16 +91,16 @@ exports.getAssignedOrder = async (req, res) => {
   }
 };
 
-// Accept order
-exports.acceptOrder = async (req, res) => {
+// Get an available order to review
+exports.getAvailableOrder = async (req, res) => {
   try {
     const rider = await Rider.findOne({ user: req.user._id });
     if (!rider) return res.status(404).json({ message: "Rider not found" });
     if (rider.status !== "online") {
-      return res.status(400).json({ message: "Must be online to accept orders" });
+      return res.status(400).json({ message: "Must be online to find orders" });
     }
 
-    // Find an order that needs a rider (e.g. ready_for_pickup and no rider assigned)
+    // Find an order that needs a rider
     const order = await Order.findOne({
       status: "ready_for_pickup",
       rider: { $exists: false }
@@ -108,6 +108,34 @@ exports.acceptOrder = async (req, res) => {
 
     if (!order) {
       return res.status(404).json({ message: "No available orders right now" });
+    }
+
+    res.status(200).json({ order });
+  } catch (error) {
+    console.error("Error fetching available order:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Accept specific order
+exports.acceptOrder = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) return res.status(400).json({ message: "Order ID is required" });
+
+    const rider = await Rider.findOne({ user: req.user._id });
+    if (!rider) return res.status(404).json({ message: "Rider not found" });
+    if (rider.status !== "online") {
+      return res.status(400).json({ message: "Must be online to accept orders" });
+    }
+
+    const order = await Order.findById(orderId).populate("restaurant", "name address coordinates phone").populate("user", "name phone");
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    if (order.rider) {
+      return res.status(400).json({ message: "Order has already been assigned to another rider" });
     }
 
     // Assign to rider

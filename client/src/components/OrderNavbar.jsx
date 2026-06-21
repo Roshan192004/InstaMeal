@@ -1,16 +1,32 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import LocationSidebar from './LocationSidebar';
 import './OrderNavbar.css';
 
 const OrderNavbar = () => {
   const { user } = useAuth();
+  const { cartCount } = useCart();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const dropdownRef = React.useRef(null);
   const [location, setLocation] = useState({
     type: "HOME",
     addr: "Khajurla, Punjab 144411, India"
   });
+
+  React.useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSelectAddress = (newLoc) => {
     setLocation(newLoc);
@@ -65,24 +81,52 @@ const OrderNavbar = () => {
             </svg>
             <span className="on-label">Help</span>
           </div>
-          <div className="on-nav-item">
-            <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span className="on-label">{user ? user.name : 'Sign In'}</span>
-          </div>
-          <div className="on-nav-item on-cart">
-            <div className="cart-icon-container">
-              <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-              <span className="cart-count">0</span>
+          {user ? (
+            <div className="on-nav-item user-dropdown-container" ref={dropdownRef}>
+              <div 
+                className="dropdown-toggle" 
+                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+              >
+                <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span className="on-label">{user.name?.split(" ")[0]}</span>
+              </div>
+              {userDropdownOpen && (
+                <div className="user-dropdown-menu" style={{ top: '100%', right: '0' }}>
+                  <Link to="/profile/edit" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>Edit Profile</Link>
+                  <Link to="/profile/address" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>Saved Address</Link>
+                  <Link to="/profile/cards" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>Saved Card</Link>
+                </div>
+              )}
             </div>
-            <span className="on-label">Cart</span>
-          </div>
+          ) : (
+            <Link to="/signin" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="on-nav-item">
+                <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span className="on-label">Sign In</span>
+              </div>
+            </Link>
+          )}
+
+          <Link to="/cart" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="on-nav-item on-cart">
+              <div className="cart-icon-container">
+                <svg className="on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span className="cart-count">{cartCount}</span>
+              </div>
+              <span className="on-label">Cart</span>
+            </div>
+          </Link>
         </div>
       </div>
     </nav>

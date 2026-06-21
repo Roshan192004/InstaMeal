@@ -12,6 +12,7 @@ const RiderDashboard = () => {
   const [rider, setRider] = useState(null);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState(null);
+  const [availableOrder, setAvailableOrder] = useState(null);
   const [otp, setOtp] = useState("");
   
   const [formData, setFormData] = useState({
@@ -133,16 +134,36 @@ const RiderDashboard = () => {
   const findOrder = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:5000/api/rider/accept-order", {}, {
+      const res = await axios.get("http://localhost:5000/api/rider/available-order", {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true
+      });
+      setAvailableOrder(res.data.order);
+      showNotification("Incoming Request", "Review the order details before accepting.", "📦");
+    } catch (error) {
+      showNotification("No Orders Available", error.response?.data?.message || "Could not find any nearby orders right now.", "🔍");
+    }
+  };
+
+  const acceptFoundOrder = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.post("http://localhost:5000/api/rider/accept-order", { orderId: availableOrder._id }, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
       setOrder(res.data.order);
+      setAvailableOrder(null);
       setRider({ ...rider, status: "on_delivery" });
-      showNotification("New Delivery Assigned!", "Navigate to the restaurant to pick up the order.", "📦");
+      showNotification("Delivery Accepted!", "Navigate to the restaurant to pick up the order.", "🚚");
     } catch (error) {
-      showNotification("No Orders Available", error.response?.data?.message || "Could not find any nearby orders right now.", "🔍");
+      setAvailableOrder(null);
+      showNotification("Acceptance Failed", error.response?.data?.message || "Order is no longer available.", "❌");
     }
+  };
+
+  const declineFoundOrder = () => {
+    setAvailableOrder(null);
   };
 
   const updateOrderStatus = async (status, deliveryOtp = null) => {
@@ -421,12 +442,44 @@ const RiderDashboard = () => {
                       <p>Switch your status to Online to start accepting and completing deliveries.</p>
                       <button className="find-order-btn" onClick={toggleStatus}>Go Online</button>
                     </div>
-                  ) : rider.status === "online" && !order ? (
+                  ) : rider.status === "online" && !order && !availableOrder ? (
                     <div className="no-order-state">
                       <div className="no-order-icon">🔍</div>
                       <h3>Looking for nearby orders...</h3>
                       <p>When there are restaurants looking to dispatch, you can request an order assignment.</p>
-                      <button className="find-order-btn" onClick={findOrder}>Check & Accept Order</button>
+                      <button className="find-order-btn" onClick={findOrder}>Find Available Orders</button>
+                    </div>
+                  ) : availableOrder ? (
+                    <div className="incoming-request-card" style={{ background: '#1c1c24', padding: '24px', borderRadius: '12px', border: '1px solid #333' }}>
+                      <h3 style={{ color: '#FF4D00', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '1.5rem' }}>🔔</span> Incoming Delivery Request
+                      </h3>
+                      <div className="delivery-locations">
+                        <div className="location-card">
+                          <div className="location-card-header">
+                            <div className="location-icon pickup">🏪</div>
+                            <span className="location-label">Pickup Restaurant</span>
+                          </div>
+                          <h4>{availableOrder.restaurant?.name || "Partner Restaurant"}</h4>
+                          <p>{availableOrder.restaurant?.address?.street || "No address provided"}</p>
+                        </div>
+                        <div className="location-card">
+                          <div className="location-card-header">
+                            <div className="location-icon dropoff">📍</div>
+                            <span className="location-label">Customer Dropoff</span>
+                          </div>
+                          <h4>Dropoff Location</h4>
+                          <p>{availableOrder.address?.street}, {availableOrder.address?.city}</p>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '16px', marginTop: '24px' }}>
+                        <button className="action-btn btn-success" style={{ flex: 1, padding: '14px', borderRadius: '8px', fontSize: '1rem', fontWeight: 'bold' }} onClick={acceptFoundOrder}>
+                          Accept Delivery
+                        </button>
+                        <button className="action-btn" style={{ flex: 1, background: '#333', color: '#fff', padding: '14px', borderRadius: '8px', fontSize: '1rem', fontWeight: 'bold', border: '1px solid #444' }} onClick={declineFoundOrder}>
+                          Decline
+                        </button>
+                      </div>
                     </div>
                   ) : order ? (
                     <div className="active-delivery-card">

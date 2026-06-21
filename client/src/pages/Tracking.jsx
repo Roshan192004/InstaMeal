@@ -212,8 +212,8 @@ export default function Tracking() {
 
         {/* Actions */}
         <div className="tracking-actions">
-          <button className="btn-view-orders" onClick={() => navigate("/orders")}>
-            📦 View All Orders
+          <button className="btn-view-orders" onClick={() => navigate("/")}>
+            🏠 Back to Home
           </button>
           {isDelivered && (
             <button className="btn-rate-order" onClick={() => navigate("/orders")}>

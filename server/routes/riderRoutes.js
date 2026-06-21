@@ -10,6 +10,7 @@ router.post("/register", riderController.registerRider);
 router.get("/profile", riderController.getRiderProfile);
 router.post("/status", riderController.toggleStatus);
 router.get("/order", riderController.getAssignedOrder);
+router.get("/available-order", riderController.getAvailableOrder);
 router.post("/accept-order", riderController.acceptOrder);
 router.post("/location", riderController.updateLocation);
 router.post("/order-status", riderController.updateOrderStatus);
