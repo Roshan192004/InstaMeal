@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import "./Navbar.css";
@@ -8,7 +8,22 @@ function Navbar() {
   const { user, logout } = useAuth();
   const { cartCount } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -51,20 +66,36 @@ function Navbar() {
 
         <div className="auth-buttons">
           {/* Cart icon */}
-          <Link to="/cart" className="cart-nav-btn" id="nav-cart-btn" aria-label="Cart">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="9" cy="21" r="1"/>
-              <circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            {cartCount > 0 && (
-              <span className="cart-badge">{cartCount > 9 ? "9+" : cartCount}</span>
-            )}
-          </Link>
+          {location.pathname !== '/' && (
+            <Link to="/cart" className="cart-nav-btn" id="nav-cart-btn" aria-label="Cart">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              {cartCount > 0 && (
+                <span className="cart-badge">{cartCount > 9 ? "9+" : cartCount}</span>
+              )}
+            </Link>
+          )}
 
           {user ? (
             <>
-              <span className="user-name-nav">👋 {user.name?.split(" ")[0]}</span>
+              <div className="user-dropdown-container" ref={dropdownRef}>
+                <button 
+                  className="user-name-nav dropdown-toggle" 
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                >
+                  👋 {user.name?.split(" ")[0]}
+                </button>
+                {userDropdownOpen && (
+                  <div className="user-dropdown-menu">
+                    <Link to="/profile/edit" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>Edit Profile</Link>
+                    <Link to="/profile/address" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>Saved Address</Link>
+                    <Link to="/profile/cards" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>Saved Card</Link>
+                  </div>
+                )}
+              </div>
               <button onClick={handleLogout} className="btn-signin" id="nav-logout-btn">Logout</button>
             </>
           ) : (

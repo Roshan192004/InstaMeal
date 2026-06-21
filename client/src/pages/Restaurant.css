@@ -155,14 +155,14 @@
   border-bottom: 2px solid #f0e0f0;
 }
 
-.menu-items-list {
+.rest-items-list {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 /* ===== MENU ITEM CARD ===== */
-.menu-item-card {
+.rest-item-card {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -174,22 +174,22 @@
   margin-bottom: 8px;
 }
 
-.menu-item-card:hover {
+.rest-item-card:hover {
   box-shadow: 0 8px 24px rgba(255,0,128,0.08);
 }
 
-.menu-item-card.out-of-stock {
+.rest-item-card.out-of-stock {
   opacity: 0.55;
 }
 
-.menu-item-info {
+.rest-item-info {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.menu-item-header {
+.rest-item-header {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -217,7 +217,7 @@
 .veg-badge.veg .veg-dot { background: #10b981; }
 .veg-badge.non-veg .veg-dot { background: #ef4444; }
 
-.menu-item-name {
+.rest-item-name {
   font-family: 'Outfit', sans-serif;
   font-size: 1rem;
   font-weight: 700;
@@ -225,7 +225,7 @@
   margin: 0;
 }
 
-.menu-item-desc {
+.rest-item-desc {
   font-size: 0.83rem;
   color: #888;
   margin: 0;
@@ -233,14 +233,14 @@
   max-width: 400px;
 }
 
-.menu-item-price {
+.rest-item-price {
   font-size: 1rem;
   font-weight: 700;
   color: #1a1a2e;
   margin-top: 4px;
 }
 
-.menu-item-action {
+.rest-item-action {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -248,14 +248,14 @@
   min-width: 100px;
 }
 
-.menu-item-img {
+.rest-item-img {
   width: 90px;
   height: 80px;
   border-radius: 12px;
   object-fit: cover;
 }
 
-.menu-item-img-placeholder {
+.rest-item-img-placeholder {
   width: 90px;
   height: 80px;
   border-radius: 12px;
@@ -465,10 +465,10 @@
   .restaurant-hero { padding: 20px 24px 28px; }
   .restaurant-hero-name { font-size: 1.4rem; }
   .restaurant-hero-emoji { font-size: 2.5rem; }
-  .menu-item-card { flex-direction: row; }
+  .rest-item-card { flex-direction: row; }
 }
 
 @media (max-width: 480px) {
-  .menu-item-desc { display: none; }
+  .rest-item-desc { display: none; }
   .restaurant-hero-meta { flex-wrap: wrap; gap: 4px; }
 }

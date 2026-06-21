@@ -296,6 +296,11 @@ export default function OrderHistory() {
                     <div className="order-total-info">
                       <span className="order-total-amount">₹{order.totalPrice}</span>
                       <span className="order-items-count">{order.items?.length || 0} item{(order.items?.length || 0) !== 1 ? "s" : ""}</span>
+                      {!isDelivered && order.status !== "cancelled" && order.deliveryOtp && (
+                        <span style={{ marginLeft: "12px", background: "#fff0f5", color: "#FF0080", padding: "4px 8px", borderRadius: "6px", fontWeight: "bold", fontSize: "0.85rem" }}>
+                          PIN: {order.deliveryOtp}
+                        </span>
+                      )}
                     </div>
 
                     <div className="order-actions">

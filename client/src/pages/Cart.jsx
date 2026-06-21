@@ -119,6 +119,7 @@ export default function Cart() {
                   coupon: couponCode,
                   paymentId: verifyData.paymentId,
                   address,
+                  restaurantId: cartItems[0]?.restaurant,
                 }),
               });
               const placedOrder = await placeRes.json();
@@ -171,6 +172,7 @@ export default function Cart() {
             coupon: couponCode,
             paymentId: "dev_mode",
             address,
+            restaurantId: cartItems[0]?.restaurant,
           }),
         });
         const placedOrder = await placeRes.json();

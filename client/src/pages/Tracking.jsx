@@ -142,7 +142,7 @@ export default function Tracking() {
               <div className="eta-label">Estimated Arrival</div>
               <div className="eta-time">{eta}</div>
             </div>
-            {(status === "picked_up" || status === "arriving") && order?.deliveryOtp && (
+            {order?.deliveryOtp && (
               <div className="delivery-pin">
                 <span className="pin-label">Delivery PIN:</span>
                 <span className="pin-value">{order.deliveryOtp}</span>

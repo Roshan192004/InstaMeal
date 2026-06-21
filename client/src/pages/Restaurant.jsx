@@ -21,23 +21,23 @@ const DEMO_MENU = [
 
 function MenuItemCard({ item, qty, onAdd, onInc, onDec }) {
   return (
-    <div className={`menu-item-card ${!item.isAvailable ? "out-of-stock" : ""}`}>
-      <div className="menu-item-info">
-        <div className="menu-item-header">
+    <div className={`rest-item-card ${!item.isAvailable ? "out-of-stock" : ""}`}>
+      <div className="rest-item-info">
+        <div className="rest-item-header">
           <span className={`veg-badge ${item.isVeg ? "veg" : "non-veg"}`}>
             <span className="veg-dot"></span>
           </span>
-          <h4 className="menu-item-name">{item.name}</h4>
+          <h4 className="rest-item-name">{item.name}</h4>
         </div>
-        <p className="menu-item-desc">{item.description}</p>
-        <div className="menu-item-price">₹{item.price}</div>
+        <p className="rest-item-desc">{item.description}</p>
+        <div className="rest-item-price">₹{item.price}</div>
       </div>
-      <div className="menu-item-action">
+      <div className="rest-item-action">
         {item.image && (
-          <img src={item.image} alt={item.name} className="menu-item-img" />
+          <img src={item.image} alt={item.name} className="rest-item-img" />
         )}
         {!item.image && (
-          <div className="menu-item-img-placeholder">🍽️</div>
+          <div className="rest-item-img-placeholder">🍽️</div>
         )}
         {!item.isAvailable ? (
           <div className="out-of-stock-btn">Out of Stock</div>
@@ -173,7 +173,7 @@ export default function Restaurant() {
             {categories.map(cat => (
               <div key={cat} id={`cat-${cat}`} className="menu-category-section">
                 <h3 className="menu-category-title">{cat}</h3>
-                <div className="menu-items-list">
+                <div className="rest-items-list">
                   {menuByCategory[cat].map(item => (
                     <MenuItemCard
                       key={item._id}
