@@ -31,6 +31,7 @@ export default function PartnerDashboard() {
   const [offerForm, setOfferForm] = useState({ title: "", description: "", type: "discount", value: "", minOrder: "" });
   const [hours, setHours] = useState({ open: "09:00", close: "22:00" });
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const incoming = orders.filter(o => o.status === "confirmed").length;
 
@@ -97,6 +98,33 @@ export default function PartnerDashboard() {
     const offers = (restaurant.offers || []).map((o, i) => i === idx ? { ...o, isActive: !o.isActive } : o);
     await fetch(`${API}/restaurant`, { method: "PUT", headers: hdr(), body: JSON.stringify({ offers }) });
     load();
+  }
+
+  async function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    setUploadingImage(true);
+    try {
+      const res = await fetch(`${API}/restaurant/image`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setRestaurant(data.restaurant);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setUploadingImage(false);
   }
 
   const Stars = ({ n }) => (
@@ -195,6 +223,25 @@ export default function PartnerDashboard() {
                 <p>{restaurant.name} · {restaurant.cuisine} · {restaurant.status === "pending" ? "⏳ Awaiting approval" : "✅ Live"}</p>
               </div>
             </div>
+            
+            <div className="shop-photo-section" style={{ background: "#13131a", padding: "20px", borderRadius: "12px", marginBottom: "24px", display: "flex", gap: "20px", alignItems: "center" }}>
+              <div className="shop-photo-preview" style={{ width: "120px", height: "120px", borderRadius: "8px", overflow: "hidden", background: "#1a1a26", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {restaurant.image ? (
+                  <img src={restaurant.image.startsWith("http") ? restaurant.image : `http://localhost:5000${restaurant.image}`} alt="Shop" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <span style={{ fontSize: "2rem" }}>🏪</span>
+                )}
+              </div>
+              <div>
+                <h3 style={{ margin: "0 0 8px 0", fontSize: "1.1rem" }}>Shop Photo</h3>
+                <p style={{ color: "#888", fontSize: "0.9rem", margin: "0 0 16px 0" }}>Upload a high-quality photo of your shop to help customers recognize you.</p>
+                <label className="btn btn-primary" style={{ cursor: "pointer", display: "inline-block" }}>
+                  {uploadingImage ? "Uploading..." : "Upload Photo"}
+                  <input type="file" accept="image/*" style={{ display: "none" }} onChange={handleImageUpload} disabled={uploadingImage} />
+                </label>
+              </div>
+            </div>
+
             {restaurant.status === "pending" && (
               <div className="alert-banner warning">⏳ Your restaurant is under review. You'll go live once approved by our team.</div>
             )}

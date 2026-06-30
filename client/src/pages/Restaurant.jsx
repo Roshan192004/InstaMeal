@@ -137,8 +137,12 @@ export default function Restaurant() {
       <div className="restaurant-hero">
         <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
         <div className="restaurant-hero-info">
-          <div className="restaurant-hero-emoji">
-            {CUISINE_EMOJIS[restaurant?.cuisine] || "🍽️"}
+          <div className="restaurant-hero-emoji" style={{ overflow: "hidden", background: "#1a1a26", padding: restaurant?.image ? 0 : undefined }}>
+            {restaurant?.image ? (
+              <img src={restaurant.image.startsWith("http") ? restaurant.image : `http://localhost:5000${restaurant.image}`} alt={restaurant.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : (
+              CUISINE_EMOJIS[restaurant?.cuisine] || "🍽️"
+            )}
           </div>
           <div>
             <h1 className="restaurant-hero-name">{restaurant?.name || "Restaurant"}</h1>

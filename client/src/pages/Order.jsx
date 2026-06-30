@@ -176,7 +176,7 @@ export default function Order() {
                 >
                   <div className="restaurant-card-img">
                     {r.image
-                      ? <img src={r.image} alt={r.name} />
+                      ? <img src={r.image.startsWith("http") ? r.image : `http://localhost:5000${r.image}`} alt={r.name} />
                       : (
                         <div className="restaurant-img-placeholder">
                           <span>{CUISINE_EMOJIS[r.cuisine] || "🍽️"}</span>

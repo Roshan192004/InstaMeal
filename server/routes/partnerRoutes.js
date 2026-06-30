@@ -5,6 +5,7 @@ const {
   getMyRestaurant,
   createMyRestaurant,
   updateMyRestaurant,
+  uploadRestaurantImage,
   toggleRestaurantStatus,
   getMyMenu,
   addMyMenuItem,
@@ -18,6 +19,19 @@ const {
   getEarnings,
   getMyReviews,
 } = require("../controllers/partnerController");
+const multer = require("multer");
+const path = require("path");
+
+// Configure multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../uploads/"));
+  },
+  filename: function (req, file, cb) {
+    cb(null, "restaurant-" + Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
 
 // All partner routes require authentication
 router.use(protect);
@@ -26,6 +40,7 @@ router.use(protect);
 router.get("/restaurant", getMyRestaurant);
 router.post("/restaurant", createMyRestaurant);
 router.put("/restaurant", updateMyRestaurant);
+router.post("/restaurant/image", upload.single("image"), uploadRestaurantImage);
 router.patch("/restaurant/toggle", toggleRestaurantStatus);
 
 // ─── Menu ─────────────────────────────────────

@@ -43,6 +43,27 @@ exports.updateMyRestaurant = async (req, res) => {
   }
 };
 
+// UPLOAD restaurant image
+exports.uploadRestaurantImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file provided" });
+    }
+    
+    const imageUrl = `/uploads/${req.file.filename}`;
+    const restaurant = await Restaurant.findOneAndUpdate(
+      { owner: req.user._id },
+      { image: imageUrl },
+      { new: true }
+    );
+    
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+    res.json({ message: "Image uploaded successfully", image: imageUrl, restaurant });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // TOGGLE online/offline (isOpen)
 exports.toggleRestaurantStatus = async (req, res) => {
   try {
