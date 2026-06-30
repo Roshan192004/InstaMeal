@@ -39,6 +39,7 @@ const restaurantSchema = new mongoose.Schema({
     }
   ],
   prepTime: { type: Number, default: 20 },         // default prep time in minutes
+  address: { type: String, default: "" },          // Exact shop location text
   // Geolocation for nearby query
   location: {
     type: {
