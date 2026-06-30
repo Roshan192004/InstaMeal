@@ -21,14 +21,14 @@ import RiderDashboard from "./pages/RiderDashboard";
 // Protected route — redirects to /signin if not logged in
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#fff',background:'#0f0f0f' }}>Loading…</div>;
+  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: '#fff', background: '#0f0f0f' }}>Loading…</div>;
   return user ? children : <Navigate to="/signin" replace />;
 }
 
 // Partner route — only for store owners
 function PartnerRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#fff',background:'#0f0f0f' }}>Loading…</div>;
+  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: '#fff', background: '#0f0f0f' }}>Loading…</div>;
   if (!user) return <Navigate to="/signin" replace />;
   if (user.role !== 'store_owner' && user.role !== 'admin') {
     return <Navigate to="/" replace />;
@@ -39,7 +39,7 @@ function PartnerRoute({ children }) {
 // Rider route
 function RiderRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#fff',background:'#0f0f0f' }}>Loading…</div>;
+  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: '#fff', background: '#0f0f0f' }}>Loading…</div>;
   if (!user) return <Navigate to="/signin" replace />;
   // Allow all logged-in users to access /rider to register as rider, or if they are already rider/admin.
   return children;
