@@ -61,27 +61,29 @@ export default function Restaurant() {
   const { cartItems, addToCart, updateQty, cartTotal, cartCount } = useCart();
 
   const [restaurant, setRestaurant] = useState(null);
+  const [allMenu, setAllMenu] = useState([]);
   const [menuByCategory, setMenuByCategory] = useState({});
   const [loading, setLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState("");
+  
+  // New State for search and filter
+  const [searchQuery, setSearchQuery] = useState("");
+  const [pureVegOnly, setPureVegOnly] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch restaurant
         const rRes = await fetch(`http://localhost:5000/api/restaurants/${id}`);
         const rData = await rRes.json();
         setRestaurant(rData);
 
-        // Fetch menu
         const mRes = await fetch(`http://localhost:5000/api/menu?restaurant=${id}`);
         const mData = await mRes.json();
         const items = Array.isArray(mData) && mData.length > 0 ? mData : DEMO_MENU;
-        groupByCategory(items);
+        setAllMenu(items);
       } catch {
-        setRestaurant({ name: "The Burger Lab", cuisine: "Burger", rating: 4.8, deliveryTime: "25-30 min", deliveryFee: 30 });
-        groupByCategory(DEMO_MENU);
+        setRestaurant({ name: "The Burger Lab", cuisine: "Burger", rating: 4.8, deliveryTime: "25-30 min", deliveryFee: 30, minimumOrder: 150 });
+        setAllMenu(DEMO_MENU);
       } finally {
         setLoading(false);
       }
@@ -89,16 +91,19 @@ export default function Restaurant() {
     fetchData();
   }, [id]);
 
-  const groupByCategory = (items) => {
+  useEffect(() => {
+    if (!allMenu.length) return;
     const grouped = {};
-    items.forEach(item => {
+    allMenu.forEach(item => {
+      if (pureVegOnly && !item.isVeg) return;
+      if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return;
+
       const cat = item.category || "Other";
       if (!grouped[cat]) grouped[cat] = [];
       grouped[cat].push(item);
     });
     setMenuByCategory(grouped);
-    setActiveSection(Object.keys(grouped)[0] || "");
-  };
+  }, [allMenu, pureVegOnly, searchQuery]);
 
   const getItemQty = (itemId) => {
     const found = cartItems.find(i => i._id === itemId);
@@ -115,11 +120,6 @@ export default function Restaurant() {
     if (found) updateQty(itemId, found.qty - 1);
   };
 
-  const scrollToSection = (cat) => {
-    setActiveSection(cat);
-    document.getElementById(`cat-${cat}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   if (loading) {
     return (
       <div className="restaurant-loading">
@@ -133,64 +133,116 @@ export default function Restaurant() {
 
   return (
     <div className="restaurant-page">
-      {/* Header */}
-      <div className="restaurant-hero">
-        <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
-        <div className="restaurant-hero-info">
-          <div className="restaurant-hero-emoji" style={{ overflow: "hidden", background: "#1a1a26", padding: restaurant?.image ? 0 : undefined }}>
-            {restaurant?.image ? (
-              <img src={restaurant.image.startsWith("http") ? restaurant.image : `http://localhost:5000${restaurant.image}`} alt={restaurant.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            ) : (
-              CUISINE_EMOJIS[restaurant?.cuisine] || "🍽️"
-            )}
+      <div className="restaurant-container">
+        
+        {/* Breadcrumb / Back */}
+        <div className="restaurant-breadcrumb">
+          <span onClick={() => navigate(-1)}>Home</span> / {restaurant?.name}
+        </div>
+
+        {/* Clean Header */}
+        <div className="restaurant-header">
+          <h1 className="restaurant-title">{restaurant?.name || "Restaurant"}</h1>
+          <div className="restaurant-tabs">
+            <button className="restaurant-tab active">Order Online</button>
+            <button className="restaurant-tab">Dineout</button>
           </div>
-          <div>
-            <h1 className="restaurant-hero-name">{restaurant?.name || "Restaurant"}</h1>
-            <div className="restaurant-hero-meta">
-              <span>⭐ {restaurant?.rating || "4.5"}</span>
-              <span className="dot">·</span>
-              <span>🕐 {restaurant?.deliveryTime || "30-40 min"}</span>
-              <span className="dot">·</span>
-              <span>{restaurant?.deliveryFee === 0 ? "🎉 Free delivery" : `₹${restaurant?.deliveryFee || 30} delivery`}</span>
+        </div>
+
+        {/* Info Card */}
+        <div className="restaurant-info-card-wrapper">
+          <div className="restaurant-info-card">
+            {(!restaurant?.isOpen || restaurant?.holidayMode) && (
+              <div className="restaurant-alert">
+                <span className="alert-icon">i</span> 
+                Uh-oh! The outlet is not accepting orders at the moment due to ongoing issue.
+              </div>
+            )}
+            
+            <div className="info-card-body">
+              <div className="info-rating-row">
+                <span className="info-rating">⭐ {restaurant?.rating || "4.5"} (1K+ ratings)</span>
+                <span className="info-dot">·</span>
+                <span className="info-cost">₹{restaurant?.minimumOrder || 300} for two</span>
+              </div>
+              
+              <div className="info-cuisines">
+                {restaurant?.categories?.join(", ") || restaurant?.cuisine || "North Indian, Fast Food"}
+              </div>
+
+              <div className="info-location">
+                <div className="location-timeline">
+                  <div className="timeline-dot top"></div>
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot bottom"></div>
+                </div>
+                <div className="location-details">
+                  <div className="outlet-row">
+                    <strong>Outlet</strong> <span>{restaurant?.address || "Location not provided"}</span>
+                  </div>
+                  <div className="status-row">
+                    <strong>{(restaurant?.isOpen && !restaurant?.holidayMode) ? (restaurant?.deliveryTime || "30-40 min") : "Closed & not delivering"}</strong>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="restaurant-body">
-        {/* Category nav tabs */}
-        <div className="category-tabs-bar">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              className={`category-tab-btn ${activeSection === cat ? "active" : ""}`}
-              onClick={() => scrollToSection(cat)}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* Menu Divider & Search */}
+        <div className="menu-divider">
+          <span>~</span> MENU <span>~</span>
         </div>
 
+        <div className="menu-controls">
+          <div className="search-bar-wrapper">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" className="search-icon">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="text" 
+              placeholder="Search for dishes" 
+              className="menu-search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          
+          <button 
+            className={`veg-toggle-btn ${pureVegOnly ? "active" : ""}`}
+            onClick={() => setPureVegOnly(!pureVegOnly)}
+          >
+            <span className="veg-icon"></span> Pure Veg
+          </button>
+        </div>
+
+        {/* Menu Content */}
         <div className="restaurant-content">
-          {/* Menu list */}
           <div className="menu-sections">
-            {categories.map(cat => (
-              <div key={cat} id={`cat-${cat}`} className="menu-category-section">
-                <h3 className="menu-category-title">{cat}</h3>
-                <div className="rest-items-list">
-                  {menuByCategory[cat].map(item => (
-                    <MenuItemCard
-                      key={item._id}
-                      item={item}
-                      qty={getItemQty(item._id)}
-                      onAdd={addToCart}
-                      onInc={handleInc}
-                      onDec={handleDec}
-                    />
-                  ))}
-                </div>
+            {categories.length === 0 ? (
+              <div className="empty-menu-msg">
+                No items found matching your search.
               </div>
-            ))}
+            ) : (
+              categories.map(cat => (
+                <div key={cat} id={`cat-${cat}`} className="menu-category-section">
+                  <h3 className="menu-category-title">{cat}</h3>
+                  <div className="rest-items-list">
+                    {menuByCategory[cat].map(item => (
+                      <MenuItemCard
+                        key={item._id}
+                        item={item}
+                        qty={getItemQty(item._id)}
+                        onAdd={addToCart}
+                        onInc={handleInc}
+                        onDec={handleDec}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           {/* Sticky cart sidebar */}
