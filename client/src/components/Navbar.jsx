@@ -53,8 +53,6 @@ function Navbar() {
 
       <div className="navbar-actions">
         <div className={`navbar-links ${menuOpen ? "open" : ""}`}>
-          <a href="#menu" className="nav-link">Menu</a>
-          <a href="#cities" className="nav-link">Cities</a>
           <a href="#about" className="nav-link">About</a>
           {user && (
             <Link to="/orders" className="nav-link">Orders</Link>
