@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import "./Home.css";
 
 function Home() {
@@ -27,7 +26,6 @@ function Home() {
           </div>
         </div>
       )}
-      <Navbar />
 
       {/* ===== HERO SECTION ===== */}
       <section className="hero">
