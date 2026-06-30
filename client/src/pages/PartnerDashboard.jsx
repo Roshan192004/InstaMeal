@@ -27,9 +27,10 @@ export default function PartnerDashboard() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [onboarding, setOnboarding] = useState(false);
-  const [obForm, setObForm] = useState({ name: "", cuisine: "", deliveryTime: "30-40 min", deliveryFee: 30, minimumOrder: 100 });
+  const [obForm, setObForm] = useState({ name: "", cuisine: "", deliveryTime: "30-40 min", deliveryFee: 30, minimumOrder: 100, address: "" });
   const [offerForm, setOfferForm] = useState({ title: "", description: "", type: "discount", value: "", minOrder: "" });
   const [hours, setHours] = useState({ open: "09:00", close: "22:00" });
+  const [address, setAddress] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -48,6 +49,7 @@ export default function PartnerDashboard() {
       const r = await rRes.json();
       setRestaurant(r);
       setHours(r.openingHours || { open: "09:00", close: "22:00" });
+      setAddress(r.address || "");
       if (mRes.ok) setMenu(await mRes.json());
       if (oRes.ok) setOrders(await oRes.json());
       if (eRes.ok) setEarnings(await eRes.json());
@@ -78,6 +80,12 @@ export default function PartnerDashboard() {
   async function saveHours() {
     setSaving(true);
     await fetch(`${API}/restaurant`, { method: "PUT", headers: hdr(), body: JSON.stringify({ openingHours: hours }) });
+    setSaving(false); load();
+  }
+
+  async function saveAddress() {
+    setSaving(true);
+    await fetch(`${API}/restaurant`, { method: "PUT", headers: hdr(), body: JSON.stringify({ address }) });
     setSaving(false); load();
   }
 
@@ -159,6 +167,10 @@ export default function PartnerDashboard() {
             <input className="form-input" type={type} value={obForm[key]} placeholder={ph} onChange={e => setObForm(f => ({ ...f, [key]: e.target.value }))} />
           </div>
         ))}
+        <div className="form-group">
+          <label className="form-label">Exact Shop Address</label>
+          <input className="form-input" type="text" value={obForm.address} placeholder="e.g. Shop No. 12, Main Market, Sector 4" onChange={e => setObForm(f => ({ ...f, address: e.target.value }))} />
+        </div>
         <div className="form-row">
           <div className="form-group">
             <label className="form-label">Delivery Fee (₹)</label>
@@ -346,6 +358,14 @@ export default function PartnerDashboard() {
                     <span className="toggle-slider" />
                   </label>
                 </div>
+              </div>
+              <div className="timing-card" style={{ gridColumn: "1 / -1" }}>
+                <h3>📍 Location & Address</h3>
+                <p style={{ color: "#888", fontSize: "0.85rem", marginBottom: "16px" }}>Update your exact shop location so customers know how far your shop is.</p>
+                <div className="form-group">
+                  <input className="form-input" type="text" value={address} placeholder="e.g. Shop No. 12, Main Market, Sector 4" onChange={e => setAddress(e.target.value)} />
+                </div>
+                <button className="btn btn-primary" style={{ marginTop: 8 }} onClick={saveAddress} disabled={saving}>{saving ? "Saving…" : "Save Address"}</button>
               </div>
             </div>
           </div>
