@@ -11,7 +11,6 @@ import Tracking from "./pages/Tracking";
 import OrderHistory from "./pages/OrderHistory";
 import PartnerDashboard from "./pages/PartnerDashboard";
 import Footer from "./components/Footer";
-import OrderNavbar from "./components/OrderNavbar";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
@@ -49,12 +48,9 @@ function AppContent() {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isRiderRoute = location.pathname.startsWith('/rider');
   const isPartnerRoute = location.pathname.startsWith('/partner');
-  const isAuthRoute = location.pathname === '/signin' || location.pathname === '/signup';
-  const hideNavbar = isAdminRoute || isRiderRoute || isPartnerRoute || isAuthRoute;
 
   return (
     <>
-      {!hideNavbar && <OrderNavbar />}
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />

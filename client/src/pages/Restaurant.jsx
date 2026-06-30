@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import OrderNavbar from "../components/OrderNavbar";
 import "./Restaurant.css";
 
 const CUISINE_EMOJIS = {
@@ -64,7 +65,7 @@ export default function Restaurant() {
   const [allMenu, setAllMenu] = useState([]);
   const [menuByCategory, setMenuByCategory] = useState({});
   const [loading, setLoading] = useState(true);
-  
+
   // New State for search and filter
   const [searchQuery, setSearchQuery] = useState("");
   const [pureVegOnly, setPureVegOnly] = useState(false);
@@ -133,8 +134,9 @@ export default function Restaurant() {
 
   return (
     <div className="restaurant-page">
+      <OrderNavbar />
       <div className="restaurant-container">
-        
+
         {/* Breadcrumb / Back */}
         <div className="restaurant-breadcrumb">
           <span onClick={() => navigate(-1)}>Home</span> / {restaurant?.name}
@@ -154,18 +156,18 @@ export default function Restaurant() {
           <div className="restaurant-info-card">
             {(!restaurant?.isOpen || restaurant?.holidayMode) && (
               <div className="restaurant-alert">
-                <span className="alert-icon">i</span> 
+                <span className="alert-icon">i</span>
                 Uh-oh! The outlet is not accepting orders at the moment due to ongoing issue.
               </div>
             )}
-            
+
             <div className="info-card-body">
               <div className="info-rating-row">
                 <span className="info-rating">⭐ {restaurant?.rating || "4.5"} (1K+ ratings)</span>
                 <span className="info-dot">·</span>
                 <span className="info-cost">₹{restaurant?.minimumOrder || 300} for two</span>
               </div>
-              
+
               <div className="info-cuisines">
                 {restaurant?.categories?.join(", ") || restaurant?.cuisine || "North Indian, Fast Food"}
               </div>
@@ -200,16 +202,16 @@ export default function Restaurant() {
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input 
-              type="text" 
-              placeholder="Search for dishes" 
+            <input
+              type="text"
+              placeholder="Search for dishes"
               className="menu-search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          
-          <button 
+
+          <button
             className={`veg-toggle-btn ${pureVegOnly ? "active" : ""}`}
             onClick={() => setPureVegOnly(!pureVegOnly)}
           >
