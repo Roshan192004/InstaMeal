@@ -11,7 +11,6 @@ import Tracking from "./pages/Tracking";
 import OrderHistory from "./pages/OrderHistory";
 import PartnerDashboard from "./pages/PartnerDashboard";
 import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
@@ -49,13 +48,9 @@ function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isRiderRoute = location.pathname.startsWith('/rider');
-  const isPartnerRoute = location.pathname.startsWith('/partner');
-  const isAuthRoute = location.pathname === '/signin' || location.pathname === '/signup';
-  const hideNavbar = isAdminRoute || isRiderRoute || isPartnerRoute || isAuthRoute;
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />
@@ -75,7 +70,7 @@ function AppContent() {
         <Route path="/tracking/:orderId" element={<ProtectedRoute><Tracking /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
       </Routes>
-      {!isAdminRoute && !isRiderRoute && !isPartnerRoute && <Footer />}
+      {!isAdminRoute && !isRiderRoute && <Footer />}
     </>
   );
 }
